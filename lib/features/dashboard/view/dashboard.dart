@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:signals/signals_flutter.dart';
+import 'package:solana_mobile_client/solana_mobile_client.dart';
 import 'package:solana_rewards/features/tasks/repository/task_repository.dart';
 import 'package:solana_rewards/infra/dependencies.dart';
 
@@ -26,6 +27,13 @@ class Dashboard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            OutlinedButton(
+              child: Text('Login'),
+              onPressed: () {
+                final result = LocalAssociationScenario.isAvailable();
+                debugPrint('LocalAssociationScenario.isAvailable: $result');
+              },
+            ),
             Text('Balance'),
             Text('\$AD 0.00'),
             Text('Tasks'),
