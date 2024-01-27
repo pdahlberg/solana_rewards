@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:signals/signals_flutter.dart';
 import 'package:solana_mobile_client/solana_mobile_client.dart';
+import 'package:solana_rewards/features/auth/state/auth_bloc.dart';
 import 'package:solana_rewards/features/tasks/repository/task_repository.dart';
 import 'package:solana_rewards/infra/dependencies.dart';
 
@@ -14,6 +15,7 @@ class Dashboard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final taskRepository = getIt<TaskRepository>();
+    final authBloc = getIt<AuthBloc>();
 
     return Scaffold(
       appBar: AppBar(
@@ -29,9 +31,13 @@ class Dashboard extends StatelessWidget {
           children: [
             OutlinedButton(
               child: Text('Login'),
-              onPressed: () {
-                final result = LocalAssociationScenario.isAvailable();
-                debugPrint('LocalAssociationScenario.isAvailable: $result');
+              onPressed: () async {
+                authBloc.connect();
+              },
+            ),
+            Watch.builder(
+              builder: (context) {
+                return Text('Logged in: ${authBloc.state.value.publicKey != null}');
               },
             ),
             Text('Balance'),
